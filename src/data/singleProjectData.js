@@ -1,10 +1,37 @@
 // Import images
 import Image1 from '../images/ui-project-1.jpg';
-import Image2 from '../images/web-project-2.jpg';
+import EmobdyImage1 from '../images/Embody/Frame 15 (1).png';
+import EmobdyImage2 from '../images/Embody/Frame 16 (1).png';
+import EmobdyImage3 from '../images/Embody/Frame 17 (2).png';
 import Image3 from '../images/mobile-project-2.jpg';
 import Image4 from '../images/mobile-project-1.jpg';
 import Image5 from '../images/web-project-1.jpg';
 import Image6 from '../images/ui-project-2.jpg';
+import EmbodyExtraImage1 from '../images/Embody/ExtraImage1.png';
+import EmbodyExtraImage2 from '../images/Embody/ExtraImage2.png';
+import EmbodyExtraImage3 from '../images/Embody/ExtraImage3.png';
+import EmbodyExtraImage4 from '../images/Embody/Frame 19.png';
+
+import CapabilityExtraImage1 from '../images/Capabilities/CapabilityImage1.png';
+import CapabilityExtraImage2 from '../images/Capabilities/CapabilityImage2.png';
+import CapabilityExtraImage3 from '../images/Capabilities/CapabilityImage3.png';
+import CapabilityExtraImage4 from '../images/Capabilities/CapabilityImage4.png';
+
+import CapabilityImage1 from '../images/Capabilities/Capability1.png';
+import CapabilityImage2 from '../images/Capabilities/Capability2.png';
+import CapabilityImage3 from '../images/Capabilities/Capability3.png';
+
+import FacialImage1 from '../images/Facial/FacialImage1.png';
+import FacialImage2 from '../images/Facial/FacialImage2.png';
+import FacialImage3 from '../images/Facial/FacialImage3.png';
+
+import FacialExtraImage1 from '../images/Facial/FacialExtraImage1.png';
+import FacialExtraImage2 from '../images/Facial/FacialExtraImage2.png';
+import FacialExtraImage3 from '../images/Facial/FacialExtraImage3.png';
+import FacialExtraImage4 from '../images/Facial/FacialExtraImage4.png';
+
+
+
 
 // Import icons
 import {
@@ -25,7 +52,7 @@ const template = {
 	},
 	ProjectImages: [
 		{ id: 1, title: 'Kabul Project Management UI', img: Image1 },
-		{ id: 2, title: 'Kabul Project Management UI', img: Image2 },
+		{ id: 2, title: 'Kabul Project Management UI', img: EmobdyImage1 },
 		{ id: 3, title: 'Kabul Project Management UI', img: Image3 },
 	],
 	ProjectInfo: {
@@ -102,7 +129,7 @@ export const singleProjectData = {
 		},
 
 		ProjectImages: [
-			{ id: 1, title: 'XR Piano Tutor screenshot 1', img: Image2 },
+			{ id: 1, title: 'XR Piano Tutor screenshot 1', img: EmobdyImage1 },
 			{ id: 2, title: 'XR Piano Tutor screenshot 2', img: Image1 },
 			{ id: 3, title: 'XR Piano Tutor screenshot 3', img: Image3 },
 		],
@@ -172,54 +199,318 @@ export const singleProjectData = {
 	},
 
 
-	// Project id = 2：示例（你把内容换成你自己的）
+	// Project id = 2：EmboDyverse
 	2: {
 		...template,
+
 		ProjectHeader: {
 			...template.ProjectHeader,
 			title: 'EmboDyverse: Virtual Hands & Object Feedback',
 			publishDate: '2025',
 			tags: 'VR / HCI',
 		},
-		// 下面这些你可以慢慢替换
+
 		ProjectImages: [
-			{ id: 1, title: 'EmboDyverse screenshot 1', img: Image2 },
-			{ id: 2, title: 'EmboDyverse screenshot 2', img: Image1 },
-			{ id: 3, title: 'EmboDyverse screenshot 3', img: Image3 },
+			{ id: 1, title: 'EmboDyverse cover', img: EmobdyImage1 },
+			{ id: 2, title: 'EmboDyverse interaction scenarios', img: EmobdyImage2 },
+			{ id: 3, title: 'EmboDyverse system overview', img: EmobdyImage3 },
 		],
+
+		ProjectInfo: {
+			...template.ProjectInfo,
+
+			ClientHeading: 'About Project',
+			CompanyInfo: [
+				{ id: 1, title: 'Project Type', details: 'VR System & HCI Research Project' },
+				{ id: 2, title: 'Focus', details: 'Virtual Hand Representation & Sense of Embodiment' },
+				{ id: 3, title: 'Platform', details: 'Meta Quest (VR)' },
+				{ id: 4, title: 'Role', details: 'VR Developer & Interaction Designer' },
+			],
+
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'EmboDyverse investigates how different virtual hand representations and object feedback influence users’ sense of embodiment and interaction experience in virtual reality. ' +
+				'The goal is to explore design strategies for mapping non-human or stylized virtual hands to real-world interactions while maintaining intuitiveness, control, and immersion.',
+
+			Technologies: [
+				{
+					title: 'Tools & Technologies',
+					techs: [
+						'Unity (C#)',
+						'Meta Quest SDK',
+						'Hand Tracking & Controller Input',
+						'XR Interaction Toolkit',
+						'Custom Interaction Logic',
+						'Human-Centered Design',
+					],
+				},
+			],
+
+			ProjectDetailsHeading: 'Challenge',
+			ProjectDetails: [
+				{
+					id: 1,
+					details:
+						'Designing virtual hand representations that differ significantly from human anatomy (e.g., monster or tentacle hands) while preserving intuitive control and usability.',
+				},
+				{
+					id: 2,
+					details:
+						'Maintaining a strong sense of embodiment when mapping real hand movements to non-human virtual hands with different kinematics and proportions.',
+				},
+				{
+					id: 3,
+					details:
+						'Balancing visual expressiveness and realism with interaction accuracy and user comfort in VR.',
+				},
+				{
+					id: 4,
+					details:
+						'Supporting multiple interaction scenarios and environments while ensuring consistent feedback and low-latency response.',
+				},
+				{
+					id: 5,
+					details:
+						'Integrating hand tracking and controller input into a unified interaction system without breaking immersion.',
+				},
+			],
+
+			ProjectVideo: {
+				heading: 'Demo Video',
+				type: 'mp4',
+				url: '/videos/Embody.mp4',
+			},
+
+		},
+		RelatedProject: {
+			title: 'More Images',
+			Projects: [
+				{ id: 1, title: 'Mobile UI', img: EmbodyExtraImage1 },
+				{ id: 2, title: 'Web Application', img: EmbodyExtraImage2 },
+				{ id: 3, title: 'UI Design', img: EmbodyExtraImage3 },
+				{ id: 4, title: 'Kabul Mobile App UI', img: EmbodyExtraImage4 },
+			],
+		},
 	},
+
 
 	// Project id = 3：示例
+	// Project id = 3：Capability at a Glance
 	3: {
 		...template,
+
 		ProjectHeader: {
 			...template.ProjectHeader,
-			title: 'Capability at a Glance',
+			title: 'Capability at a Glance: Intuitive Avatars for Augmented Actions',
 			publishDate: '2025',
-			tags: 'VR / UX Guidelines',
+			tags: 'VR / HCI / Avatar Design',
 		},
+
 		ProjectImages: [
-			{ id: 1, title: 'Capability screenshot 1', img: Image6 },
-			{ id: 2, title: 'Capability screenshot 2', img: Image5 },
-			{ id: 3, title: 'Capability screenshot 3', img: Image4 },
+			{ id: 1, title: 'Design guidelines overview', img: CapabilityImage1 },
+			{ id: 2, title: 'Avatar capability visualization', img: CapabilityImage2 },
+			{ id: 3, title: 'VR application scenarios', img: CapabilityImage3 },
 		],
+
+		ProjectInfo: {
+			...template.ProjectInfo,
+
+			ClientHeading: 'About Project',
+			CompanyInfo: [
+				{
+					id: 1,
+					title: 'Project Type',
+					details: 'VR & HCI Research Project',
+				},
+				{
+					id: 2,
+					title: 'Focus',
+					details: 'Avatar Design for Augmented Actions',
+				},
+				{
+					id: 3,
+					title: 'Platform',
+					details: 'Virtual Reality (Meta Quest)',
+				},
+				{
+					id: 4,
+					title: 'Role',
+					details: 'HCI Researcher & VR Developer',
+				},
+			],
+
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'Capability at a Glance explores how avatar design can communicate augmented or non-human capabilities in virtual reality without increasing cognitive load. ' +
+				'The project investigates design strategies that allow users to immediately understand what actions their avatars can perform, ' +
+				'supporting intuitive interaction, embodiment, and trust when avatars extend beyond human physical abilities.',
+
+			Technologies: [
+				{
+					title: 'Tools & Technologies',
+					techs: [
+						'Unity (C#)',
+						'Meta Quest SDK',
+						'XR Interaction Toolkit',
+						'Avatar & Interaction Design',
+						'User-Centered Design',
+						'VR Prototyping',
+					],
+				},
+			],
+
+			ProjectDetailsHeading: 'Challenge',
+			ProjectDetails: [
+				{
+					id: 1,
+					details:
+						'Users often struggle to understand the capabilities of avatars that perform augmented or non-human actions, leading to confusion and reduced usability.',
+				},
+				{
+					id: 2,
+					details:
+						'Conveying avatar capabilities visually without relying on explicit instructions or tutorials requires careful design of form, motion, and feedback.',
+				},
+				{
+					id: 3,
+					details:
+						'Balancing expressiveness and clarity is challenging, as overly realistic avatars may obscure augmented abilities, while abstract designs can reduce embodiment.',
+				},
+				{
+					id: 4,
+					details:
+						'Ensuring that capability cues remain understandable across different tasks and VR contexts is critical for generalizability.',
+				},
+				{
+					id: 5,
+					details:
+						'Integrating these design principles into interactive VR prototypes while maintaining immersion and performance adds additional technical constraints.',
+				},
+			],
+			ProjectVideo: {
+				heading: 'Demo Video',
+				type: 'mov',
+				url: '/videos/Capability.mov',
+			},
+		},
+
+		RelatedProject: {
+			title: 'More Images',
+			Projects: [
+				{ id: 1, title: 'Capability design sketches', img: CapabilityExtraImage1 },
+				{ id: 2, title: 'Avatar interaction examples', img: CapabilityExtraImage2 },
+				{ id: 3, title: 'VR scenario exploration', img: CapabilityExtraImage3 },
+				{ id: 4, title: 'User testing sessions', img: CapabilityExtraImage4 },
+			],
+		},
 	},
 
-	// Project id = 4：示例
+
+	// Project id = 4：Tuning the Face
 	4: {
 		...template,
+
 		ProjectHeader: {
 			...template.ProjectHeader,
 			title: 'Tuning the Face: Modulating Facial Expressions',
 			publishDate: '2025',
-			tags: 'VR / Avatars',
+			tags: 'VR / Avatars / Facial Expression',
 		},
+
 		ProjectImages: [
-			{ id: 1, title: 'Tuning screenshot 1', img: Image3 },
-			{ id: 2, title: 'Tuning screenshot 2', img: Image2 },
-			{ id: 3, title: 'Tuning screenshot 3', img: Image1 },
+			{ id: 1, title: 'Facial expression system overview', img: FacialImage1 },
+			{ id: 2, title: 'Blendshape tuning interface', img: FacialImage2 },
+			{ id: 3, title: 'Avatar facial expression examples', img: FacialImage3 },
 		],
+
+		ProjectInfo: {
+			...template.ProjectInfo,
+
+			ClientHeading: 'About Project',
+			CompanyInfo: [
+				{
+					id: 1,
+					title: 'Project Type',
+					details: 'VR Avatar System & HCI Research Project',
+				},
+				{
+					id: 2,
+					title: 'Focus',
+					details: 'Facial Expression Control & Avatar Realism',
+				},
+				{
+					id: 3,
+					title: 'Platform',
+					details: 'Meta Quest (VR)',
+				},
+				{
+					id: 4,
+					title: 'Role',
+					details: 'VR Developer & Interaction Designer',
+				},
+			],
+
+			ObjectivesHeading: 'Objective',
+			ObjectivesDetails:
+				'This project explores how fine-grained modulation of facial expressions can improve avatar realism, emotional expressiveness, and user embodiment in virtual reality. ' +
+				'By allowing users to tune expression intensity, timing, and constraints, the system investigates how controlled exaggeration or suppression of facial features affects social presence and comfort in VR interactions.',
+
+			Technologies: [
+				{
+					title: 'Tools & Technologies',
+					techs: [
+						'Unity (C#)',
+						'Meta Quest SDK',
+						'Facial Tracking & Blendshapes',
+						'Avatar Rigging & Animation',
+						'Expression Parameter Mapping',
+						'Human-Centered Design',
+					],
+				},
+			],
+
+			ProjectDetailsHeading: 'Challenge',
+			ProjectDetails: [
+				{
+					id: 1,
+					details:
+						'Designing a facial expression system that balances realism and stylization without triggering uncanny or uncomfortable reactions.',
+				},
+				{
+					id: 2,
+					details:
+						'Mapping raw facial tracking signals to avatar blendshapes in a way that preserves user intent while reducing noise and jitter.',
+				},
+				{
+					id: 3,
+					details:
+						'Allowing expressive exaggeration for communication while maintaining believable facial anatomy and motion constraints.',
+				},
+				{
+					id: 4,
+					details:
+						'Supporting diverse avatar styles and facial structures with a unified and tunable expression control framework.',
+				},
+			],
+
+			ProjectVideo: {
+				heading: 'Demo Video',
+				type: 'mov',
+				url: '/videos/FacialExpression.mov', // 没有就先留着
+			},
+		},
+
+		RelatedProject: {
+			title: 'Related Images',
+			Projects: [
+				{ id: 1, title: 'Expression intensity comparison', img: FacialExtraImage1 },
+				{ id: 2, title: 'Blendshape control UI', img: FacialExtraImage2 },
+				{ id: 3, title: 'Avatar emotion examples', img: FacialExtraImage3 },
+				{ id: 4, title: 'User testing sessions', img: FacialExtraImage4 },
+			],
+		},
 	},
+
 	5: {
 		...template,
 

@@ -2,6 +2,9 @@
 import CiteCheckCover from '../images/CiteCheck/Frame 14 (1).png';
 import XRImageCover from '../images/XRPiano/test1.png';
 import EASECover from '../images/EASE/Frame 13 (1).png';
+import EmbodyCover from '../images/Embody/EmbodyCover.png';
+import CapabilityCover from '../images/Capabilities/CapabilityCover.png';
+import FacialCover from '../images/Facial/FacialCover.png';
 import MobileImage2 from '../images/mobile-project-2.jpg';
 import UIImage1 from '../images/ui-project-1.jpg';
 import UIImage2 from '../images/ui-project-2.jpg';
@@ -22,19 +25,19 @@ export const projectsData = [
 		id: 2,
 		title: 'EmboDyverse',
 		category: 'Virtual Hand Interaction & Sense of Embodiment',
-		img: MobileImage2,
+		img: EmbodyCover,
 	},
 	{
 		id: 3,
 		title: 'Capability at a Glance',
 		category: 'Designing Intuitive Avatars for Augmented Actions in VR',
-		img: UIImage1,
+		img: CapabilityCover,
 	},
 	{
 		id: 4,
 		title: 'Tuning the Face',
 		category: 'Facial Expression Control for Realistic Avatars',
-		img: UIImage2,
+		img: FacialCover,
 	},
 	{
 		id: 5,
