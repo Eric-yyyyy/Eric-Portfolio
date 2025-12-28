@@ -1,18 +1,18 @@
 const { execSync } = require("child_process");
 
-function run(cmd, opts = {}) {
+function runInherit(cmd, opts = {}) {
   console.log(`\n$ ${cmd}`);
-  return execSync(cmd, { stdio: "pipe", encoding: "utf8", ...opts });
+  execSync(cmd, { stdio: "inherit", shell: true, ...opts });
 }
 
-function runInherit(cmd) {
+function runPipe(cmd, opts = {}) {
   console.log(`\n$ ${cmd}`);
-  execSync(cmd, { stdio: "inherit" });
+  return execSync(cmd, { stdio: "pipe", encoding: "utf8", shell: true, ...opts });
 }
 
-function safe(cmd) {
+function safePipe(cmd) {
   try {
-    return run(cmd).trim();
+    return runPipe(cmd).trim();
   } catch {
     return "";
   }
@@ -28,50 +28,61 @@ try {
   // 1) 检查 git-lfs 是否存在
   try {
     runInherit("git lfs version");
-  } catch (e) {
+  } catch {
     console.error("\n❌ git-lfs is NOT available in this Vercel build environment.");
     process.exit(1);
   }
 
-  // 2) 确保 origin 正常（Vercel 有时没有标准 origin 或 URL 异常）
+  // 2) 确保 origin 正常
   const REPO = "https://github.com/Eric-yyyyy/Eric-Portfolio.git";
-  const originUrl = safe("git config --get remote.origin.url");
+  const originUrl = safePipe("git config --get remote.origin.url");
 
   if (!originUrl || originUrl === '""') {
     console.log("\n⚠️ origin url missing/empty. Setting origin to:", REPO);
-    // origin 不存在就 add，存在就 set-url
-    execSync(`git remote add origin ${REPO}`, { stdio: "ignore" });
+    runInherit(`git remote add origin ${REPO} || true`);
   }
   runInherit(`git remote set-url origin ${REPO} || true`);
 
-  // 3) 清理潜在的坏 LFS 配置（空值会导致 missing protocol）
+  // 3) 输出 .lfsconfig（如果存在，常常是元凶）
+  console.log("\n--- DEBUG: .lfsconfig ---");
+  runInherit("ls -la .lfsconfig || true");
+  runInherit("cat .lfsconfig || true");
+
+  // 4) 清理潜在坏配置
   runInherit("git config --local --unset-all lfs.url || true");
   runInherit("git config --local --unset-all remote.origin.lfsurl || true");
   runInherit("git config --local --unset-all remote.origin.lfspushurl || true");
 
-  // 4) 写死正确的 LFS endpoint（避免推导失败）
-  runInherit(`git config --local lfs.url ${REPO}/info/lfs`);
-
-  // 5) 初始化并拉取 LFS 文件
+  // 5) 初始化 LFS
   runInherit("git lfs install --local");
 
   console.log("\n--- DEBUG: git lfs env (before pull) ---");
   runInherit("git lfs env || true");
 
-  runInherit("git lfs pull");
+  // ✅ 6) 关键：pull 时用 git -c 强制指定 endpoint（绕过任何空配置）
+  const LFS_ENDPOINT = `${REPO}/info/lfs`;
+  runInherit(`git -c lfs.url=${LFS_ENDPOINT} lfs pull`);
 
   console.log("\n✅ Git LFS pull completed successfully.");
 } catch (err) {
   console.error("\n❌ vercel-lfs.js failed.");
 
-  // 尽量多打点信息，方便你看 Vercel 日志定位
+  // 输出更多信息（不依赖 grep）
   try {
     console.log("\n--- DEBUG: git remote -v (on error) ---");
-    execSync("git remote -v || true", { stdio: "inherit" });
-    console.log("\n--- DEBUG: git config -l | (lfs) (on error) ---");
-    execSync("git config -l | sort | (grep lfs || true)", { stdio: "inherit", shell: true });
+    runInherit("git remote -v || true");
+
+    console.log("\n--- DEBUG: git config --show-origin -l (filtered lfs) ---");
+    const cfg = safePipe("git config --show-origin -l || true");
+    const lines = cfg
+      .split("\n")
+      .filter((l) => l.toLowerCase().includes("lfs"))
+      .join("\n");
+    console.log(lines || "(no lfs-related config lines)");
+
     console.log("\n--- DEBUG: git lfs env (on error) ---");
-    execSync("git lfs env || true", { stdio: "inherit" });
+    runInherit("git lfs env || true");
   } catch {}
+
   process.exit(1);
 }
