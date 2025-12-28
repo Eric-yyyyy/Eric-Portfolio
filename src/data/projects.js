@@ -1,10 +1,10 @@
 // Import images
 import CiteCheckCover from '../images/CiteCheck/Frame 14 (1).png';
-import XRImageCover from '../images/XRPiano/test1.png';
+import XRImageCover from '../images/XRPiano/XRTutor_2048x1785.png';
 import EASECover from '../images/EASE/Frame 13 (1).png';
-import EmbodyCover from '../images/Embody/EmbodyCover.png';
-import CapabilityCover from '../images/Capabilities/CapabilityCover.png';
-import FacialCover from '../images/Facial/FacialCover.png';
+import EmbodyCover from '../images/Embody/EmboDyverseTeaser4_with_bgc.png';
+import CapabilityCover from '../images/Capabilities/Teaser_2160x1883.png';
+import FacialCover from '../images/Facial/FacialTeaser.png';
 import MobileImage2 from '../images/mobile-project-2.jpg';
 import UIImage1 from '../images/ui-project-1.jpg';
 import UIImage2 from '../images/ui-project-2.jpg';

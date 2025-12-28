@@ -30,7 +30,10 @@ import FacialExtraImage2 from '../images/Facial/FacialExtraImage2.png';
 import FacialExtraImage3 from '../images/Facial/FacialExtraImage3.png';
 import FacialExtraImage4 from '../images/Facial/FacialExtraImage4.png';
 
+import PianoImage1 from '../images/XRPiano/Menu.png';
 
+import PianoImage2 from '../images/XRPiano/Fix_1024x893.png';
+import PianoImage3 from '../images/XRPiano/PianoImage_1024x893.png'
 
 
 // Import icons
@@ -129,9 +132,9 @@ export const singleProjectData = {
 		},
 
 		ProjectImages: [
-			{ id: 1, title: 'XR Piano Tutor screenshot 1', img: EmobdyImage1 },
-			{ id: 2, title: 'XR Piano Tutor screenshot 2', img: Image1 },
-			{ id: 3, title: 'XR Piano Tutor screenshot 3', img: Image3 },
+			{ id: 1, title: 'XR Piano Tutor screenshot 1', img: PianoImage1 },
+			{ id: 2, title: 'XR Piano Tutor screenshot 2', img: PianoImage2 },
+			{ id: 3, title: 'XR Piano Tutor screenshot 3', img: PianoImage3 },
 		],
 
 		// ✅ 关键：覆盖 ProjectInfo（你的页面就是读这个）

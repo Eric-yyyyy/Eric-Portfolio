@@ -5,6 +5,6 @@ export const aboutMeData = [
 	},
 	{
 		id: 2,
-		bio: "I have hands-on experience developing AR/VR applications using Unity and the Meta Quest platform, including projects such as a VR piano assistant that overlays real-time visual feedback onto a physical keyboard. In addition to XR development, I have worked on full-stack and frontend projects using React, TypeScript, and modern web frameworks. Through these projects, I aim to combine engineering rigor with design thinking, prototyping interactive systems that are both technically robust and grounded in user needs.",
+		bio: "Through hands-on prototyping of immersive systems, I explore how XR and interactive technologies can support intuitive and expressive user experiences. In parallel, I have experience building full-stack and frontend applications using modern web technologies. Across projects, I aim to combine engineering rigor with design thinking, creating interactive systems that are both technically robust and grounded in real user needs.",
 	},
 ];
