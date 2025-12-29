@@ -36,6 +36,21 @@ import PianoImage2 from '../images/XRPiano/Fix_1024x893.png';
 import PianoImage3 from '../images/XRPiano/PianoImage_1024x893.png'
 
 
+import PianoExtraImage1 from '../images/XRPiano/XRExtaraImage.png'
+import PianoExtraImage2 from '../images/XRPiano/VRReport.png';
+import PianoExtraImage3 from '../images/XRPiano/ARReport.png';
+import XRImageCover from '../images/XRPiano/XRTutor_2048x1785.png';
+
+import EASEImage1 from '../images/EASE/Channel.png';
+import EASEImage2 from '../images/EASE/DirectChat.png';
+import EASEImage3 from '../images/EASE/GroupChat.png';
+
+import EASEExtraImage1 from '../images/EASE/AddCalendar.png'
+import EASEExtraImage2 from '../images/EASE/CalendarView.png';
+import EASEExtraImage3 from '../images/EASE/Notification.png';
+import EASEExtraImage4 from '../images/EASE/EASEProfile.png'
+
+
 // Import icons
 import {
 	FiFacebook,
@@ -198,6 +213,21 @@ export const singleProjectData = {
 				},
 			],
 
+			ProjectVideo: {
+				heading: 'Demo Video',
+				type: 'mp4',
+				url: '/videos/Video Project 2.mp4',
+			},
+
+		},
+		RelatedProject: {
+			title: 'More Images',
+			Projects: [
+				{ id: 1, title: 'Mobile UI', img: PianoExtraImage1 },
+				{ id: 2, title: 'Web Application', img: PianoExtraImage2 },
+				{ id: 3, title: 'UI Design', img: PianoExtraImage3 },
+				{ id: 4, title: 'Kabul Mobile App UI', img: XRImageCover },
+			],
 		},
 	},
 
@@ -504,7 +534,7 @@ export const singleProjectData = {
 		},
 
 		RelatedProject: {
-			title: 'Related Images',
+			title: 'More Images',
 			Projects: [
 				{ id: 1, title: 'Expression intensity comparison', img: FacialExtraImage1 },
 				{ id: 2, title: 'Blendshape control UI', img: FacialExtraImage2 },
@@ -525,9 +555,9 @@ export const singleProjectData = {
 		},
 
 		ProjectImages: [
-			{ id: 1, title: 'EASE dashboard overview', img: Image5 },
-			{ id: 2, title: 'EASE course navigation', img: Image4 },
-			{ id: 3, title: 'EASE notifications and calendar', img: Image6 },
+			{ id: 1, title: 'EASE dashboard overview', img: EASEImage1 },
+			{ id: 2, title: 'EASE course navigation', img: EASEImage2 },
+			{ id: 3, title: 'EASE notifications and calendar', img: EASEImage3 },
 		],
 
 		ProjectInfo: {
@@ -590,6 +620,22 @@ export const singleProjectData = {
 					details:
 						'Managing authentication, user roles, and data persistence while ensuring reliability and maintainability.',
 				},
+			],
+
+			ProjectVideo: {
+				heading: 'Demo Video',
+				type: 'mp4',
+				url: '/videos/EASE.mp4',
+			},
+
+		},
+		RelatedProject: {
+			title: 'More Images',
+			Projects: [
+				{ id: 1, title: 'Expression intensity comparison', img: EASEExtraImage4 },
+				{ id: 2, title: 'Blendshape control UI', img: EASEExtraImage1 },
+				{ id: 3, title: 'Avatar emotion examples', img: EASEExtraImage2 },
+				{ id: 4, title: 'User testing sessions', img: EASEExtraImage3 },
 			],
 		},
 	},

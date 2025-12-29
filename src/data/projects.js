@@ -4,7 +4,7 @@ import XRImageCover from '../images/XRPiano/XRTutor_2048x1785.png';
 import EASECover from '../images/EASE/Frame 13 (1).png';
 import EmbodyCover from '../images/Embody/EmboDyverseTeaser4_with_bgc.png';
 import CapabilityCover from '../images/Capabilities/Teaser_2160x1883.png';
-import FacialCover from '../images/Facial/FacialTeaser.png';
+import FacialCover from '../images/Facial/FacialNEWCover.png';
 import MobileImage2 from '../images/mobile-project-2.jpg';
 import UIImage1 from '../images/ui-project-1.jpg';
 import UIImage2 from '../images/ui-project-2.jpg';
