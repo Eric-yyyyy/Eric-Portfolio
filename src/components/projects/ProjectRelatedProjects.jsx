@@ -42,14 +42,14 @@ const ProjectRelatedProjects = () => {
 				</div>
 			</div>
 
-			<Lightbox
+			{/* <Lightbox
 				isOpen={open}
 				images={images}
 				index={idx}
 				onClose={() => setOpen(false)}
 				onPrev={() => setIdx((p) => (p - 1 + images.length) % images.length)}
 				onNext={() => setIdx((p) => (p + 1) % images.length)}
-			/>
+			/> */}
 		</>
 	);
 };

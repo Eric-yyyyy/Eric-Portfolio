@@ -1,8 +1,8 @@
 // Import images
 import Image1 from '../images/ui-project-1.jpg';
-import EmobdyImage1 from '../images/Embody/Frame 15 (1).png';
-import EmobdyImage2 from '../images/Embody/Frame 16 (1).png';
-import EmobdyImage3 from '../images/Embody/Frame 17 (2).png';
+import EmobdyImage1 from '../images/Embody/Frame 22.png';
+import EmobdyImage2 from '../images/Embody/Frame 24.png';
+import EmobdyImage3 from '../images/Embody/Frame 23.png';
 import Image3 from '../images/mobile-project-2.jpg';
 import Image4 from '../images/mobile-project-1.jpg';
 import Image5 from '../images/web-project-1.jpg';
@@ -21,7 +21,7 @@ import CapabilityImage1 from '../images/Capabilities/Capability1.png';
 import CapabilityImage2 from '../images/Capabilities/Capability2.png';
 import CapabilityImage3 from '../images/Capabilities/Capability3.png';
 
-import FacialImage1 from '../images/Facial/FacialImage1.png';
+import FacialImage1 from '../images/Facial/Frame 25.png';
 import FacialImage2 from '../images/Facial/FacialImage2.png';
 import FacialImage3 from '../images/Facial/FacialImage3.png';
 
@@ -49,6 +49,10 @@ import EASEExtraImage1 from '../images/EASE/AddCalendar.png'
 import EASEExtraImage2 from '../images/EASE/CalendarView.png';
 import EASEExtraImage3 from '../images/EASE/Notification.png';
 import EASEExtraImage4 from '../images/EASE/EASEProfile.png'
+
+import CiteCheckImage1 from '../images/CiteCheck/CiteCheckImage1.png';
+import CiteCheckImage2 from '../images/CiteCheck/CiteCheckImage2.png';
+import CiteCheckImage3 from '../images/CiteCheck/Image34.png';
 
 
 // Import icons
@@ -650,9 +654,9 @@ export const singleProjectData = {
 		},
 
 		ProjectImages: [
-			{ id: 1, title: 'EASE dashboard overview', img: Image5 },
-			{ id: 2, title: 'EASE course navigation', img: Image4 },
-			{ id: 3, title: 'EASE notifications and calendar', img: Image6 },
+			{ id: 1, title: 'EASE dashboard overview', img: CiteCheckImage1 },
+			{ id: 2, title: 'EASE course navigation', img: CiteCheckImage2 },
+			{ id: 3, title: 'EASE notifications and calendar', img: CiteCheckImage3 },
 		],
 
 		ProjectInfo: {
@@ -715,6 +719,17 @@ export const singleProjectData = {
 					details:
 						'Managing latency, cost, and reliability when incorporating large language models into an interactive application.',
 				},
+			],
+			ProjectVideo: {
+				heading: 'Demo Video',
+				type: 'mp4',
+				url: '/videos/CiteCheck.mp4',
+			},
+		},
+		RelatedProject: {
+			title: '',
+			Projects: [
+				
 			],
 		},
 	},
