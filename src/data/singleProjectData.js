@@ -10,14 +10,15 @@ import Image6 from '../images/ui-project-2.jpg';
 import EmbodyExtraImage1 from '../images/Embody/ExtraImage1.png';
 import EmbodyExtraImage2 from '../images/Embody/ExtraImage2.png';
 import EmbodyExtraImage3 from '../images/Embody/ExtraImage3.png';
-import EmbodyExtraImage4 from '../images/Embody/Frame 19.png';
+import EmbodyExtraImage4 from '../images/Embody/Frame 26.png';
+import EmbodyExtraImage5 from '../images/Embody/Frame 27.png';
 
 import CapabilityExtraImage1 from '../images/Capabilities/CapabilityImage1.png';
 import CapabilityExtraImage2 from '../images/Capabilities/CapabilityImage2.png';
 import CapabilityExtraImage3 from '../images/Capabilities/CapabilityImage3.png';
 import CapabilityExtraImage4 from '../images/Capabilities/CapabilityImage4.png';
 
-import CapabilityImage1 from '../images/Capabilities/Capability1.png';
+import CapabilityImage1 from '../images/Capabilities/Capability.jpg';
 import CapabilityImage2 from '../images/Capabilities/Capability2.png';
 import CapabilityImage3 from '../images/Capabilities/Capability3.png';
 
@@ -248,9 +249,8 @@ export const singleProjectData = {
 		},
 
 		ProjectImages: [
-			{ id: 1, title: 'EmboDyverse cover', img: EmobdyImage1 },
-			{ id: 2, title: 'EmboDyverse interaction scenarios', img: EmobdyImage2 },
-			{ id: 3, title: 'EmboDyverse system overview', img: EmobdyImage3 },
+			{ id: 1, title: 'EmboDyverse cover', img: EmbodyExtraImage4 },
+			
 		],
 
 		ProjectInfo: {
@@ -325,7 +325,7 @@ export const singleProjectData = {
 				{ id: 1, title: 'Mobile UI', img: EmbodyExtraImage1 },
 				{ id: 2, title: 'Web Application', img: EmbodyExtraImage2 },
 				{ id: 3, title: 'UI Design', img: EmbodyExtraImage3 },
-				{ id: 4, title: 'Kabul Mobile App UI', img: EmbodyExtraImage4 },
+				{ id: 4, title: 'Kabul Mobile App UI', img: EmbodyExtraImage5 },
 			],
 		},
 	},
@@ -345,8 +345,7 @@ export const singleProjectData = {
 
 		ProjectImages: [
 			{ id: 1, title: 'Design guidelines overview', img: CapabilityImage1 },
-			{ id: 2, title: 'Avatar capability visualization', img: CapabilityImage2 },
-			{ id: 3, title: 'VR application scenarios', img: CapabilityImage3 },
+			
 		],
 
 		ProjectInfo: {
@@ -457,7 +456,7 @@ export const singleProjectData = {
 		ProjectImages: [
 			{ id: 1, title: 'Facial expression system overview', img: FacialImage1 },
 			{ id: 2, title: 'Blendshape tuning interface', img: FacialImage2 },
-			{ id: 3, title: 'Avatar facial expression examples', img: FacialImage3 },
+		
 		],
 
 		ProjectInfo: {
@@ -561,7 +560,7 @@ export const singleProjectData = {
 		ProjectImages: [
 			{ id: 1, title: 'EASE dashboard overview', img: EASEImage1 },
 			{ id: 2, title: 'EASE course navigation', img: EASEImage2 },
-			{ id: 3, title: 'EASE notifications and calendar', img: EASEImage3 },
+			// { id: 3, title: 'EASE notifications and calendar', img: EASEImage3 },
 		],
 
 		ProjectInfo: {
@@ -636,7 +635,7 @@ export const singleProjectData = {
 		RelatedProject: {
 			title: 'More Images',
 			Projects: [
-				{ id: 1, title: 'Expression intensity comparison', img: EASEExtraImage4 },
+				//{ id: 1, title: 'Expression intensity comparison', img: EASEExtraImage4 },
 				{ id: 2, title: 'Blendshape control UI', img: EASEExtraImage1 },
 				{ id: 3, title: 'Avatar emotion examples', img: EASEExtraImage2 },
 				{ id: 4, title: 'User testing sessions', img: EASEExtraImage3 },
@@ -656,7 +655,7 @@ export const singleProjectData = {
 		ProjectImages: [
 			{ id: 1, title: 'EASE dashboard overview', img: CiteCheckImage1 },
 			{ id: 2, title: 'EASE course navigation', img: CiteCheckImage2 },
-			{ id: 3, title: 'EASE notifications and calendar', img: CiteCheckImage3 },
+			
 		],
 
 		ProjectInfo: {
