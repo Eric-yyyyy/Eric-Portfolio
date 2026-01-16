@@ -365,7 +365,7 @@ export const singleProjectData = {
 				},
 			],
 
-			ProjectDetailsHeading: 'Challenge',
+			//ProjectDetailsHeading: 'Challenge',
 			// ProjectDetails: [
 			// 	{
 			// 		id: 1,
