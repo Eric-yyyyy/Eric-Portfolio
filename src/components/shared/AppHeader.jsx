@@ -121,7 +121,7 @@ const AppHeader = () => {
 					>
 						About Me
 					</Link>
-					<a
+					{/* <a
 						href="https://scholar.google.com/citations?user=TylcXnYAAAAJ&hl=en"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -129,7 +129,7 @@ const AppHeader = () => {
 						aria-label="Google Scholar"
 					>
 						Google Scholar
-					</a>
+					</a> */}
 					<Link
 						to="/contact"
 						className="block text-left text-lg text-primary-dark dark:text-ternary-light hover:text-secondary-dark dark:hover:text-secondary-light  sm:mx-4 mb-2 sm:py-2 border-t-2 pt-3 sm:pt-2 sm:border-t-0 border-primary-light dark:border-secondary-dark"
@@ -164,7 +164,7 @@ const AppHeader = () => {
 					>
 						About Me
 					</Link>
-					<a
+					{/* <a
 						href="https://scholar.google.com/citations?user=TylcXnYAAAAJ&hl=en"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -172,7 +172,7 @@ const AppHeader = () => {
 						aria-label="Google Scholar"
 					>
 						Google Scholar
-					</a>
+					</a> */}
 					<Link
 						to="/contact"
 						className="block text-left text-lg text-primary-dark dark:text-ternary-light hover:text-secondary-dark dark:hover:text-secondary-light  sm:mx-4 mb-2 sm:py-2"

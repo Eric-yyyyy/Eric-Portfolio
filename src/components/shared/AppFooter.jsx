@@ -5,6 +5,7 @@ import {
 	FiGlobe,
 	FiYoutube,
 } from 'react-icons/fi';
+import { SiGooglescholar } from "react-icons/si";
 import AppFooterCopyright from './AppFooterCopyright';
 
 const socialLinks = [
@@ -17,12 +18,12 @@ const socialLinks = [
 		id: 2,
 		icon: <FiGithub />,
 		url: 'https://github.com/Eric-yyyyy',
-	}
-	// {
-	// 	id: 3,
-	// 	icon: <FiTwitter />,
-	// 	url: 'https://twitter.com/realstoman',
-	// },
+	},
+	{
+		id: 3,
+		icon: <SiGooglescholar />,
+		url: 'https://scholar.google.com/citations?user=TylcXnYAAAAJ&hl=en',
+	},
 	// {
 	// 	id: 4,
 	// 	icon: <FiLinkedin />,
