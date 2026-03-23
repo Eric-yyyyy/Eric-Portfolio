@@ -120,11 +120,11 @@ const template = {
 		],
 		SocialSharingHeading: 'Share This',
 		SocialSharing: [
-			{ id: 1, name: 'Twitter', icon: <FiTwitter />, url: 'https://twitter.com/realstoman' },
-			{ id: 2, name: 'Instagram', icon: <FiInstagram />, url: 'https://instagram.com/realstoman' },
+			{ id: 1, name: 'Twitter', icon: <FiTwitter />, url: 'https://twitter.com' },
+			{ id: 2, name: 'Instagram', icon: <FiInstagram />, url: 'https://instagram.com' },
 			{ id: 3, name: 'Facebook', icon: <FiFacebook />, url: 'https://facebook.com/' },
 			{ id: 4, name: 'LinkedIn', icon: <FiLinkedin />, url: 'https://linkedin.com/' },
-			{ id: 5, name: 'Youtube', icon: <FiYoutube />, url: 'https://www.youtube.com/c/StomanStudio' },
+			{ id: 5, name: 'Youtube', icon: <FiYoutube />, url: 'https://www.youtube.com' },
 		],
 	},
 	RelatedProject: {
