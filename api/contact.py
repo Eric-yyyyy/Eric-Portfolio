@@ -1,13 +1,13 @@
-import json
+from flask import Flask, request, jsonify
 import os
 import requests
 
-def handler(request):
-    if request.method != "POST":
-        return Response({"message": "Method not allowed"}, 405)
+app = Flask(__name__)
 
+@app.route("/api/contact", methods=["POST"])
+def contact():
     try:
-        data = request.get_json()
+        data = request.get_json(silent=True) or {}
     except Exception:
         data = {}
 
@@ -18,9 +18,8 @@ def handler(request):
     captcha_token = (data.get("captchaToken") or "").strip()
 
     if not name or not email or not subject or not message or not captcha_token:
-        return Response({"message": "Missing required fields."}, 400)
+        return jsonify({"message": "Missing required fields."}), 400
 
-    # 1) 先验 reCAPTCHA
     try:
         verify_resp = requests.post(
             "https://www.google.com/recaptcha/api/siteverify",
@@ -32,12 +31,11 @@ def handler(request):
         )
         verify_data = verify_resp.json()
     except Exception as e:
-        return Response({"message": f"Captcha verification failed: {str(e)}"}, 500)
+        return jsonify({"message": f"Captcha verification failed: {str(e)}"}), 500
 
     if not verify_data.get("success"):
-        return Response({"message": "Invalid reCAPTCHA."}, 400)
+        return jsonify({"message": "Invalid reCAPTCHA."}), 400
 
-    # 2) 验过才发 EmailJS
     payload = {
         "service_id": os.environ["EMAILJS_SERVICE_ID"],
         "template_id": os.environ["EMAILJS_TEMPLATE_ID"],
@@ -58,17 +56,9 @@ def handler(request):
             timeout=15,
         )
     except Exception as e:
-        return Response({"message": f"Email request failed: {str(e)}"}, 500)
+        return jsonify({"message": f"Email request failed: {str(e)}"}), 500
 
     if r.status_code != 200:
-        return Response({"message": f"EmailJS failed: {r.text}"}, 500)
+        return jsonify({"message": f"EmailJS failed: {r.text}"}), 500
 
-    return Response({"message": "Message sent successfully."}, 200)
-
-
-def Response(body, status=200):
-    return {
-        "statusCode": status,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(body),
-    }
+    return jsonify({"message": "Message sent successfully."}), 200

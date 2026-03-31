@@ -29,11 +29,18 @@ const ContactForm = () => {
 		const form = e.currentTarget;
 		const data = new FormData(form);
 
+		const captchaToken = window.grecaptcha
+			? await window.grecaptcha.execute(process.env.REACT_APP_RECAPTCHA_SITE_KEY, {
+				action: 'submit',
+			})
+			: '';
+
 		const payload = {
 			name: data.get('name')?.toString().trim(),
 			email: data.get('email')?.toString().trim(),
 			subject: data.get('subject')?.toString().trim(),
 			message: data.get('message')?.toString().trim(),
+			captchaToken,
 		};
 
 		try {
@@ -43,10 +50,17 @@ const ContactForm = () => {
 				body: JSON.stringify(payload),
 			});
 
-			const result = await res.json();
+			const text = await res.text();
+			let result = {};
+
+			try {
+				result = text ? JSON.parse(text) : {};
+			} catch {
+				throw new Error(`Server returned non-JSON response: ${text || 'empty body'}`);
+			}
 
 			if (!res.ok) {
-				throw new Error(result.message || 'Failed to send');
+				throw new Error(result.message || `Failed to send (${res.status})`);
 			}
 
 			setStatus({ type: 'success', msg: 'Message sent!' });
@@ -127,11 +141,10 @@ const ContactForm = () => {
 
 					{status.msg ? (
 						<p
-							className={`mt-4 text-sm ${
-								status.type === 'success'
+							className={`mt-4 text-sm ${status.type === 'success'
 									? 'text-green-600 dark:text-green-400'
 									: 'text-red-600 dark:text-red-400'
-							}`}
+								}`}
 						>
 							{status.msg}
 						</p>
@@ -143,8 +156,8 @@ const ContactForm = () => {
 								loading
 									? 'Sending...'
 									: remaining > 0
-									? `Wait ${Math.ceil(remaining / 1000)}s`
-									: 'Send Message'
+										? `Wait ${Math.ceil(remaining / 1000)}s`
+										: 'Send Message'
 							}
 							type="submit"
 							aria-label="Send Message"
