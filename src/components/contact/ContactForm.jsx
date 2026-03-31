@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import Button from '../reusable/Button';
 import FormInput from '../reusable/FormInput';
 
 const COOLDOWN_MS = 5000;
+const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 
 const ContactForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState({ type: '', msg: '' });
 	const [lastSentAt, setLastSentAt] = useState(0);
+	const recaptchaRef = useRef(null);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -24,22 +27,29 @@ const ContactForm = () => {
 			return;
 		}
 
+		if (!SITE_KEY) {
+			setStatus({ type: 'error', msg: 'reCAPTCHA site key is missing.' });
+			return;
+		}
+
 		setLoading(true);
 
 		const form = e.currentTarget;
 		const data = new FormData(form);
 
-		const captchaToken = window.grecaptcha
-			? await window.grecaptcha.execute(process.env.REACT_APP_RECAPTCHA_SITE_KEY, {
-				action: 'submit',
-			})
-			: '';
+		const captchaToken = recaptchaRef.current?.getValue() || '';
+
+		if (!captchaToken) {
+			setStatus({ type: 'error', msg: 'Please complete the reCAPTCHA.' });
+			setLoading(false);
+			return;
+		}
 
 		const payload = {
-			name: data.get('name')?.toString().trim(),
-			email: data.get('email')?.toString().trim(),
-			subject: data.get('subject')?.toString().trim(),
-			message: data.get('message')?.toString().trim(),
+			name: data.get('name')?.toString().trim() || '',
+			email: data.get('email')?.toString().trim() || '',
+			subject: data.get('subject')?.toString().trim() || '',
+			message: data.get('message')?.toString().trim() || '',
 			captchaToken,
 		};
 
@@ -66,11 +76,13 @@ const ContactForm = () => {
 			setStatus({ type: 'success', msg: 'Message sent!' });
 			setLastSentAt(Date.now());
 			form.reset();
+			recaptchaRef.current?.reset();
 		} catch (err) {
 			setStatus({
 				type: 'error',
 				msg: err.message || 'Failed to send.',
 			});
+			recaptchaRef.current?.reset();
 		} finally {
 			setLoading(false);
 		}
@@ -139,12 +151,17 @@ const ContactForm = () => {
 						></textarea>
 					</div>
 
+					<div className="mt-6">
+						<ReCAPTCHA ref={recaptchaRef} sitekey={SITE_KEY} />
+					</div>
+
 					{status.msg ? (
 						<p
-							className={`mt-4 text-sm ${status.type === 'success'
+							className={`mt-4 text-sm ${
+								status.type === 'success'
 									? 'text-green-600 dark:text-green-400'
 									: 'text-red-600 dark:text-red-400'
-								}`}
+							}`}
 						>
 							{status.msg}
 						</p>
@@ -156,8 +173,8 @@ const ContactForm = () => {
 								loading
 									? 'Sending...'
 									: remaining > 0
-										? `Wait ${Math.ceil(remaining / 1000)}s`
-										: 'Send Message'
+									? `Wait ${Math.ceil(remaining / 1000)}s`
+									: 'Send Message'
 							}
 							type="submit"
 							aria-label="Send Message"
