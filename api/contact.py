@@ -1,31 +1,48 @@
-from flask import Flask, request, jsonify
+import json
 import os
 import requests
 
-app = Flask(__name__)
+def handler(request):
+    if request.method != "POST":
+        return Response({"message": "Method not allowed"}, 405)
 
-EMAILJS_SERVICE_ID = os.getenv("EMAILJS_SERVICE_ID")
-EMAILJS_TEMPLATE_ID = os.getenv("EMAILJS_TEMPLATE_ID")
-EMAILJS_PUBLIC_KEY = os.getenv("EMAILJS_PUBLIC_KEY")
-EMAILJS_PRIVATE_KEY = os.getenv("EMAILJS_PRIVATE_KEY")
-
-@app.route("/api/contact", methods=["POST"])
-def contact():
-    data = request.get_json(silent=True) or {}
+    try:
+        data = request.get_json()
+    except Exception:
+        data = {}
 
     name = (data.get("name") or "").strip()
     email = (data.get("email") or "").strip()
     subject = (data.get("subject") or "").strip()
     message = (data.get("message") or "").strip()
+    captcha_token = (data.get("captchaToken") or "").strip()
 
-    if not name or not email or not subject or not message:
-        return jsonify({"message": "All fields are required."}), 400
+    if not name or not email or not subject or not message or not captcha_token:
+        return Response({"message": "Missing required fields."}, 400)
 
+    # 1) 先验 reCAPTCHA
+    try:
+        verify_resp = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={
+                "secret": os.environ["RECAPTCHA_SECRET_KEY"],
+                "response": captcha_token,
+            },
+            timeout=10,
+        )
+        verify_data = verify_resp.json()
+    except Exception as e:
+        return Response({"message": f"Captcha verification failed: {str(e)}"}, 500)
+
+    if not verify_data.get("success"):
+        return Response({"message": "Invalid reCAPTCHA."}, 400)
+
+    # 2) 验过才发 EmailJS
     payload = {
-        "service_id": EMAILJS_SERVICE_ID,
-        "template_id": EMAILJS_TEMPLATE_ID,
-        "user_id": EMAILJS_PUBLIC_KEY,
-        "accessToken": EMAILJS_PRIVATE_KEY,
+        "service_id": os.environ["EMAILJS_SERVICE_ID"],
+        "template_id": os.environ["EMAILJS_TEMPLATE_ID"],
+        "user_id": os.environ["EMAILJS_PUBLIC_KEY"],
+        "accessToken": os.environ["EMAILJS_PRIVATE_KEY"],
         "template_params": {
             "from_name": name,
             "reply_to": email,
@@ -35,16 +52,23 @@ def contact():
     }
 
     try:
-        response = requests.post(
+        r = requests.post(
             "https://api.emailjs.com/api/v1.0/email/send",
             json=payload,
             timeout=15,
         )
+    except Exception as e:
+        return Response({"message": f"Email request failed: {str(e)}"}, 500)
 
-        if response.status_code != 200:
-            return jsonify({"message": f"EmailJS failed: {response.text}"}), 500
+    if r.status_code != 200:
+        return Response({"message": f"EmailJS failed: {r.text}"}, 500)
 
-        return jsonify({"message": "Message sent successfully."}), 200
+    return Response({"message": "Message sent successfully."}, 200)
 
-    except requests.RequestException as e:
-        return jsonify({"message": f"Server request failed: {str(e)}"}), 500
+
+def Response(body, status=200):
+    return {
+        "statusCode": status,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps(body),
+    }
