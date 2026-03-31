@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Button from '../reusable/Button';
 import FormInput from '../reusable/FormInput';
@@ -9,20 +9,33 @@ const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 const ContactForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState({ type: '', msg: '' });
-	const [lastSentAt, setLastSentAt] = useState(0);
+	const [cooldownLeft, setCooldownLeft] = useState(0);
 	const recaptchaRef = useRef(null);
+
+	useEffect(() => {
+		if (cooldownLeft <= 0) return;
+
+		const timer = setInterval(() => {
+			setCooldownLeft((prev) => {
+				if (prev <= 1000) {
+					clearInterval(timer);
+					return 0;
+				}
+				return prev - 1000;
+			});
+		}, 1000);
+
+		return () => clearInterval(timer);
+	}, [cooldownLeft]);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setStatus({ type: '', msg: '' });
 
-		const now = Date.now();
-		const remaining = COOLDOWN_MS - (now - lastSentAt);
-
-		if (remaining > 0) {
+		if (cooldownLeft > 0) {
 			setStatus({
 				type: 'error',
-				msg: `Please wait ${Math.ceil(remaining / 1000)} more second(s).`,
+				msg: `Please wait ${Math.ceil(cooldownLeft / 1000)} more second(s).`,
 			});
 			return;
 		}
@@ -32,18 +45,16 @@ const ContactForm = () => {
 			return;
 		}
 
+		const captchaToken = recaptchaRef.current?.getValue() || '';
+		if (!captchaToken) {
+			setStatus({ type: 'error', msg: 'Please complete the reCAPTCHA.' });
+			return;
+		}
+
 		setLoading(true);
 
 		const form = e.currentTarget;
 		const data = new FormData(form);
-
-		const captchaToken = recaptchaRef.current?.getValue() || '';
-
-		if (!captchaToken) {
-			setStatus({ type: 'error', msg: 'Please complete the reCAPTCHA.' });
-			setLoading(false);
-			return;
-		}
 
 		const payload = {
 			name: data.get('name')?.toString().trim() || '',
@@ -79,7 +90,7 @@ const ContactForm = () => {
 			}
 
 			setStatus({ type: 'success', msg: 'Message sent!' });
-			setLastSentAt(Date.now());
+			setCooldownLeft(COOLDOWN_MS);
 			form.reset();
 			recaptchaRef.current?.reset();
 		} catch (err) {
@@ -93,9 +104,7 @@ const ContactForm = () => {
 		}
 	};
 
-	const now = Date.now();
-	const remaining = Math.max(0, COOLDOWN_MS - (now - lastSentAt));
-	const disabled = loading || remaining > 0;
+	const disabled = loading || cooldownLeft > 0;
 
 	return (
 		<div className="w-full lg:w-1/2">
@@ -162,10 +171,11 @@ const ContactForm = () => {
 
 					{status.msg ? (
 						<p
-							className={`mt-4 text-sm ${status.type === 'success'
+							className={`mt-4 text-sm ${
+								status.type === 'success'
 									? 'text-green-600 dark:text-green-400'
 									: 'text-red-600 dark:text-red-400'
-								}`}
+							}`}
 						>
 							{status.msg}
 						</p>
@@ -176,9 +186,9 @@ const ContactForm = () => {
 							title={
 								loading
 									? 'Sending...'
-									: remaining > 0
-										? `Wait ${Math.ceil(remaining / 1000)}s`
-										: 'Send Message'
+									: cooldownLeft > 0
+									? `Wait ${Math.ceil(cooldownLeft / 1000)}s`
+									: 'Send Message'
 							}
 							type="submit"
 							aria-label="Send Message"
