@@ -15,7 +15,7 @@ const ContactForm = () => {
 		setStatus({ type: '', msg: '' });
 
 		if (!captchaToken) {
-			setStatus({ type: 'error', msg: 'Please complete the reCAPTCHA first.' });
+			setStatus({ type: 'error', msg: 'Please complete the Verification first.' });
 			return;
 		}
 
