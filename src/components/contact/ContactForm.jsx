@@ -1,24 +1,27 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
+import ReCAPTCHA from 'react-google-recaptcha';
 import Button from '../reusable/Button';
 import FormInput from '../reusable/FormInput';
 
 const ContactForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState({ type: '', msg: '' });
+	const [captchaToken, setCaptchaToken] = useState('');
+	const recaptchaRef = useRef(null);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setStatus({ type: '', msg: '' });
+
+		if (!captchaToken) {
+			setStatus({ type: 'error', msg: 'Please complete the reCAPTCHA first.' });
+			return;
+		}
+
 		setLoading(true);
 
 		const form = e.currentTarget;
-
-		// ✅ 环境变量检查（如果这里是 undefined，100% 就是 .env 没生效）
-		console.log('SERVICE_ID:', process.env.REACT_APP_EMAILJS_SERVICE_ID);
-		console.log('TEMPLATE_ID:', process.env.REACT_APP_EMAILJS_TEMPLATE_ID);
-		console.log('PUBLIC_KEY:', process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
-
 		const data = new FormData(form);
 
 		const templateParams = {
@@ -26,9 +29,8 @@ const ContactForm = () => {
 			reply_to: data.get('email'),
 			subject: data.get('subject'),
 			message: data.get('message'),
+			'g-recaptcha-response': captchaToken,
 		};
-
-		console.log('templateParams:', templateParams);
 
 		try {
 			const res = await emailjs.send(
@@ -42,8 +44,9 @@ const ContactForm = () => {
 
 			setStatus({ type: 'success', msg: 'Message sent!' });
 			form.reset();
+			setCaptchaToken('');
+			recaptchaRef.current?.reset();
 		} catch (err) {
-			// ✅ 打出 EmailJS 的真实报错（400/401/403/412 都能看到原因）
 			console.error('EmailJS error raw:', err);
 			console.error('EmailJS status:', err?.status);
 			console.error('EmailJS text:', err?.text);
@@ -52,6 +55,9 @@ const ContactForm = () => {
 				type: 'error',
 				msg: `Failed to send: ${err?.text || err?.status || 'Unknown error'}`,
 			});
+
+			recaptchaRef.current?.reset();
+			setCaptchaToken('');
 		} finally {
 			setLoading(false);
 		}
@@ -77,6 +83,7 @@ const ContactForm = () => {
 						placeholderText="Your Name"
 						ariaLabelName="Name"
 					/>
+
 					<FormInput
 						inputLabel="Email"
 						labelFor="email"
@@ -86,6 +93,7 @@ const ContactForm = () => {
 						placeholderText="Your email"
 						ariaLabelName="Email"
 					/>
+
 					<FormInput
 						inputLabel="Subject"
 						labelFor="subject"
@@ -114,23 +122,32 @@ const ContactForm = () => {
 						></textarea>
 					</div>
 
-					{/* 状态提示 */}
+					<div className="mt-6">
+						<ReCAPTCHA
+							ref={recaptchaRef}
+							sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+							onChange={(token) => setCaptchaToken(token || '')}
+						/>
+					</div>
+
 					{status.msg ? (
 						<p
-							className={`mt-4 text-sm ${status.type === 'success'
+							className={`mt-4 text-sm ${
+								status.type === 'success'
 									? 'text-green-600 dark:text-green-400'
 									: 'text-red-600 dark:text-red-400'
-								}`}
+							}`}
 						>
 							{status.msg}
 						</p>
 					) : null}
 
 					<div
-						className={`font-general-medium w-40 px-4 py-2.5 text-white text-center font-medium tracking-wider rounded-lg mt-6 duration-500 ${loading
+						className={`font-general-medium w-40 px-4 py-2.5 text-white text-center font-medium tracking-wider rounded-lg mt-6 duration-500 ${
+							loading
 								? 'bg-indigo-400 cursor-not-allowed'
 								: 'bg-indigo-500 hover:bg-indigo-600 focus:ring-1 focus:ring-indigo-900'
-							}`}
+						}`}
 					>
 						<Button
 							title={loading ? 'Sending...' : 'Send Message'}
