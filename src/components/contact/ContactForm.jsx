@@ -70,7 +70,12 @@ const ContactForm = () => {
 			}
 
 			if (!res.ok) {
-				throw new Error(result.message || `Failed to send (${res.status})`);
+				throw new Error(
+					result.emailjs_text ||
+					result.error ||
+					result.message ||
+					`Failed to send (${res.status})`
+				);
 			}
 
 			setStatus({ type: 'success', msg: 'Message sent!' });
@@ -157,11 +162,10 @@ const ContactForm = () => {
 
 					{status.msg ? (
 						<p
-							className={`mt-4 text-sm ${
-								status.type === 'success'
+							className={`mt-4 text-sm ${status.type === 'success'
 									? 'text-green-600 dark:text-green-400'
 									: 'text-red-600 dark:text-red-400'
-							}`}
+								}`}
 						>
 							{status.msg}
 						</p>
@@ -173,8 +177,8 @@ const ContactForm = () => {
 								loading
 									? 'Sending...'
 									: remaining > 0
-									? `Wait ${Math.ceil(remaining / 1000)}s`
-									: 'Send Message'
+										? `Wait ${Math.ceil(remaining / 1000)}s`
+										: 'Send Message'
 							}
 							type="submit"
 							aria-label="Send Message"
