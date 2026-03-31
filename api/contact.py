@@ -27,7 +27,6 @@ def contact():
                 }
             }), 400
 
-        # Google verify
         verify_resp = requests.post(
             "https://www.google.com/recaptcha/api/siteverify",
             data={
@@ -36,7 +35,6 @@ def contact():
             },
             timeout=10,
         )
-
         verify_data = verify_resp.json()
 
         if not verify_data.get("success"):
@@ -45,7 +43,6 @@ def contact():
                 "details": verify_data
             }), 400
 
-        # Check env vars first
         service_id = os.environ.get("EMAILJS_SERVICE_ID")
         template_id = os.environ.get("EMAILJS_TEMPLATE_ID")
         public_key = os.environ.get("EMAILJS_PUBLIC_KEY")
@@ -72,8 +69,8 @@ def contact():
                 "reply_to": email,
                 "subject": subject,
                 "message": message,
+                "g-recaptcha-response": captcha_token,
             },
-            "g-recaptcha-response": captcha_token,
         }
 
         r = requests.post(
