@@ -1,21 +1,26 @@
-import { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useState } from 'react';
 import Button from '../reusable/Button';
 import FormInput from '../reusable/FormInput';
+
+const COOLDOWN_MS = 5000;
 
 const ContactForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState({ type: '', msg: '' });
-	const [captchaToken, setCaptchaToken] = useState('');
-	const recaptchaRef = useRef(null);
+	const [lastSentAt, setLastSentAt] = useState(0);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setStatus({ type: '', msg: '' });
 
-		if (!captchaToken) {
-			setStatus({ type: 'error', msg: 'Please complete the Verification first.' });
+		const now = Date.now();
+		const remaining = COOLDOWN_MS - (now - lastSentAt);
+
+		if (remaining > 0) {
+			setStatus({
+				type: 'error',
+				msg: `Please wait ${Math.ceil(remaining / 1000)} more second(s).`,
+			});
 			return;
 		}
 
@@ -24,44 +29,42 @@ const ContactForm = () => {
 		const form = e.currentTarget;
 		const data = new FormData(form);
 
-		const templateParams = {
-			from_name: data.get('name'),
-			reply_to: data.get('email'),
-			subject: data.get('subject'),
-			message: data.get('message'),
-			'g-recaptcha-response': captchaToken,
+		const payload = {
+			name: data.get('name')?.toString().trim(),
+			email: data.get('email')?.toString().trim(),
+			subject: data.get('subject')?.toString().trim(),
+			message: data.get('message')?.toString().trim(),
 		};
 
 		try {
-			const res = await emailjs.send(
-				process.env.REACT_APP_EMAILJS_SERVICE_ID,
-				process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-				templateParams,
-				process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-			);
-
-			console.log('EmailJS OK:', res);
-
-			setStatus({ type: 'success', msg: 'Message sent!' });
-			form.reset();
-			setCaptchaToken('');
-			recaptchaRef.current?.reset();
-		} catch (err) {
-			console.error('EmailJS error raw:', err);
-			console.error('EmailJS status:', err?.status);
-			console.error('EmailJS text:', err?.text);
-
-			setStatus({
-				type: 'error',
-				msg: `Failed to send: ${err?.text || err?.status || 'Unknown error'}`,
+			const res = await fetch('http://127.0.0.1:5000/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload),
 			});
 
-			recaptchaRef.current?.reset();
-			setCaptchaToken('');
+			const result = await res.json();
+
+			if (!res.ok) {
+				throw new Error(result.message || 'Failed to send');
+			}
+
+			setStatus({ type: 'success', msg: 'Message sent!' });
+			setLastSentAt(Date.now());
+			form.reset();
+		} catch (err) {
+			setStatus({
+				type: 'error',
+				msg: err.message || 'Failed to send.',
+			});
 		} finally {
 			setLoading(false);
 		}
 	};
+
+	const now = Date.now();
+	const remaining = Math.max(0, COOLDOWN_MS - (now - lastSentAt));
+	const disabled = loading || remaining > 0;
 
 	return (
 		<div className="w-full lg:w-1/2">
@@ -122,14 +125,6 @@ const ContactForm = () => {
 						></textarea>
 					</div>
 
-					<div className="mt-6">
-						<ReCAPTCHA
-							ref={recaptchaRef}
-							sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-							onChange={(token) => setCaptchaToken(token || '')}
-						/>
-					</div>
-
 					{status.msg ? (
 						<p
 							className={`mt-4 text-sm ${
@@ -142,18 +137,18 @@ const ContactForm = () => {
 						</p>
 					) : null}
 
-					<div
-						className={`font-general-medium w-40 px-4 py-2.5 text-white text-center font-medium tracking-wider rounded-lg mt-6 duration-500 ${
-							loading
-								? 'bg-indigo-400 cursor-not-allowed'
-								: 'bg-indigo-500 hover:bg-indigo-600 focus:ring-1 focus:ring-indigo-900'
-						}`}
-					>
+					<div className="font-general-medium w-40 px-4 py-2.5 text-white text-center font-medium tracking-wider rounded-lg mt-6 duration-500 bg-indigo-500">
 						<Button
-							title={loading ? 'Sending...' : 'Send Message'}
+							title={
+								loading
+									? 'Sending...'
+									: remaining > 0
+									? `Wait ${Math.ceil(remaining / 1000)}s`
+									: 'Send Message'
+							}
 							type="submit"
 							aria-label="Send Message"
-							disabled={loading}
+							disabled={disabled}
 						/>
 					</div>
 				</form>
