@@ -37,17 +37,18 @@ def contact():
         return jsonify({"message": "Invalid reCAPTCHA."}), 400
 
     payload = {
-        "service_id": os.environ["EMAILJS_SERVICE_ID"],
-        "template_id": os.environ["EMAILJS_TEMPLATE_ID"],
-        "user_id": os.environ["EMAILJS_PUBLIC_KEY"],
-        "accessToken": os.environ["EMAILJS_PRIVATE_KEY"],
-        "template_params": {
-            "from_name": name,
-            "reply_to": email,
-            "subject": subject,
-            "message": message,
-        },
-    }
+    "service_id": os.environ["EMAILJS_SERVICE_ID"],
+    "template_id": os.environ["EMAILJS_TEMPLATE_ID"],
+    "user_id": os.environ["EMAILJS_PUBLIC_KEY"],
+    "accessToken": os.environ["EMAILJS_PRIVATE_KEY"],
+    "template_params": {
+        "from_name": name,
+        "reply_to": email,
+        "subject": subject,
+        "message": message,
+    },
+    "g-recaptcha-response": captcha_token,
+}
 
     try:
         r = requests.post(
